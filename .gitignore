@@ -17,15 +17,18 @@ DerivedData/
 !default.perspectivev3
 xcuserdata/
 
-## Other
+# Other
+*.xccheckout
 *.moved-aside
 *.xcuserstate
+*.xcscmblueprint
+*.svn/
+*.DS_Store
 
-## Obj-C/Swift specific
+
+# Obj-C/Swift specific
 *.hmap
 *.ipa
-*.dSYM.zip
-*.dSYM
 
 # CocoaPods
 #
