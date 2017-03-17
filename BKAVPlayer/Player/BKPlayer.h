@@ -10,9 +10,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import "BKPlayerControlView.h"
 
-
-typedef void(^GoBackBlock)(void);
-
 typedef enum : NSUInteger {
     BKPlayerStatusReadyToPlay = 0,
     BKPlayerStatusBuffering = 1,
@@ -22,6 +19,7 @@ typedef enum : NSUInteger {
     BKPlayerStatusStop = 5,
 } BKPlayerStatus;
 
+typedef void(^GoBackBlock)(void);
 
 @interface BKPlayer : UIView
 
