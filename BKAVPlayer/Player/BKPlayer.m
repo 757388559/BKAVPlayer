@@ -8,6 +8,7 @@
 
 #import "BKPlayer.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "Masonry.h"
 
 typedef enum : NSUInteger {
     PanDirectionVerticalMoved,
@@ -19,6 +20,16 @@ static const CGFloat kCtrViewShowedTime = 7;
 
 @interface BKPlayer ()
 
+/// Player.
+@property(nonatomic) AVPlayer *bkPlayer;
+/// Current playerLayer.
+@property(nonatomic, readonly) AVPlayerLayer *bkPlayerLayer;
+/// Url
+@property (nonatomic , strong) NSURL *url;
+/// Full screen.
+@property (nonatomic , assign) BOOL isFullScreen;
+/// Control View.
+@property (nonatomic , strong) BKPlayerControlView *controlView;
 /// Volume.
 @property (nonatomic , strong) UISlider *volumeViewSlider;
 /// PeriodicTime.
@@ -27,25 +38,25 @@ static const CGFloat kCtrViewShowedTime = 7;
 @property (nonatomic , assign) BOOL isUserPaused;
 /// is enter bg.
 @property (nonatomic , assign) BOOL didEnterBackground;
-/// show ctr View.
+/// Show ctr View.
 @property (nonatomic , assign) BOOL showCtrView;
-/// duration.
+/// Duration.
 @property (nonatomic , assign) CGFloat totalDuration;
-/// panDirection.
+/// PanDirection.
 @property (nonatomic , assign) PanDirection panDirection;
-/// touch Point.
+/// Touch Point.
 @property (nonatomic , assign) CGPoint beganPoint;
-/// 菊花.
+/// Loading.
 @property (nonatomic , strong) UIActivityIndicatorView *indicatorView;
-/// video nature size.
+/// Video nature size.
 @property (nonatomic , assign) CGSize natureSize;
 
 @end
 
 @implementation BKPlayer
 
-
 - (instancetype)init {
+    
     self = [super init];
     if (self) {
         [self addNotifications];
@@ -55,9 +66,29 @@ static const CGFloat kCtrViewShowedTime = 7;
     return self;
 }
 
+- (instancetype)initWithUrl:(NSURL *)url {
+    
+    if ([self init]) {
+        _url = url;
+        AVPlayer *avplayer = [[AVPlayer alloc] initWithURL:url];
+        self.player = avplayer;
+    }
+    return self;
+}
+
+- (instancetype)initWithPlayerItem:(AVPlayerItem *)playerItem {
+    
+    if ([self init]) {
+        AVPlayer *avplayer = [[AVPlayer alloc] initWithPlayerItem:playerItem];
+        self.player = avplayer;
+    }
+    return self;
+}
+
 #pragma mark - 通知和观察者方法的实现
 
 - (void)sigleTapForView:(UIGestureRecognizer *)sender {
+    
     if (self.showCtrView) {
         [self fadeOutCtrView];
     } else {
@@ -80,7 +111,6 @@ static const CGFloat kCtrViewShowedTime = 7;
     switch (sender.state) {
         case UIGestureRecognizerStateBegan:
         {
-            
             CGFloat x = fabs(velocityPoint.x);
             CGFloat y = fabs(velocityPoint.y);
             // 水平移动
@@ -132,20 +162,20 @@ static const CGFloat kCtrViewShowedTime = 7;
 
 - (void)deviceOrientationDidChanged {
     
-    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     
-    switch (deviceOrientation) {
-        case UIDeviceOrientationPortrait:
+    switch (interfaceOrientation) {
+        case UIInterfaceOrientationPortrait:
         {
             self.frame = self.normalFrame;
             self.controlView.btnGoBack.hidden = YES;
             self.isFullScreen = NO;
         }
             break;
-        case UIDeviceOrientationLandscapeLeft:
-        case UIDeviceOrientationLandscapeRight:
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
         {
-//            self.frame = CGRectMake(0, 0, PHONE_WIDTH, PHONE_HEIGH);
+            self.frame = CGRectMake(0, 0, PHONE_WIDTH, PHONE_HEIGH);
             self.controlView.btnGoBack.hidden = NO;
             self.isFullScreen = YES;
         }
@@ -240,7 +270,7 @@ static const CGFloat kCtrViewShowedTime = 7;
 - (void)addObservesForPlayerItem {
     
     // 播放结束通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.bkPlayerItem];
     // item 当前状态
     [self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:nil];
     // 缓冲了多长时间
@@ -250,15 +280,15 @@ static const CGFloat kCtrViewShowedTime = 7;
     // 缓冲区有足够数据可以播放了
     [self addObserver:self forKeyPath:@"player.currentItem.playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
     // 实时播放时间
-//    WS(weakSelf);
+    WS(weakSelf);
     self.timeObservation = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         CGFloat currentTime = CMTimeGetSeconds(time);
         // 设置播放时间
-//        weakSelf.controlView.labCurrentTime.text = [weakSelf fomatTimeStr:currentTime];
+        weakSelf.controlView.labCurrentTime.text = [weakSelf fomatTimeStr:currentTime];
         // 设置剩余时间
-//        weakSelf.controlView.labRemainTime.text = [weakSelf fomatTimeStr:(weakSelf.totalDuration - currentTime)];
+        weakSelf.controlView.labRemainTime.text = [weakSelf fomatTimeStr:(weakSelf.totalDuration - currentTime)];
         // 设置时间滑竿的值
-//        [weakSelf.controlView.sliderTime setValue:currentTime/weakSelf.totalDuration animated:NO];
+        [weakSelf.controlView.sliderTime setValue:currentTime/weakSelf.totalDuration animated:NO];
     }];
 }
 
@@ -266,7 +296,7 @@ static const CGFloat kCtrViewShowedTime = 7;
     
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     // 设备旋转
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChanged) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     // 进入前台
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActived) name:UIApplicationDidBecomeActiveNotification object:nil];
     // 进入后台
@@ -410,8 +440,8 @@ static const CGFloat kCtrViewShowedTime = 7;
     
     MPVolumeView *volumeView = [[MPVolumeView alloc] init];
     _volumeViewSlider = nil;
-    for (UIView *view in [volumeView subviews]){
-        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+    for (UIView *view in [volumeView subviews]) {
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"]) {
             _volumeViewSlider = (UISlider *)view;
             break;
         }
@@ -529,12 +559,8 @@ static const CGFloat kCtrViewShowedTime = 7;
 
 #pragma mark - setter and getter
 
-- (void)setPlayerItem:(AVPlayerItem *)playerItem {
-    
-    if (self.player.currentItem != playerItem) {
-        _playerItem = playerItem;
-        [self.player replaceCurrentItemWithPlayerItem:_playerItem];
-    }
+- (AVPlayerItem *)bkPlayerItem {
+    return self.bkPlayer ? self.bkPlayer.currentItem:nil;
 }
 
 - (BKPlayerControlView *)controlView {
@@ -546,9 +572,9 @@ static const CGFloat kCtrViewShowedTime = 7;
         _controlView.sliderTime.userInteractionEnabled = NO;
         _controlView.btnPlay.userInteractionEnabled = NO;
         [self addSubview:_controlView];
-//        [_controlView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.right.top.bottom.equalTo(self);
-//        }];
+        [_controlView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(self);
+        }];
     }
     return _controlView;
 }
@@ -569,9 +595,9 @@ static const CGFloat kCtrViewShowedTime = 7;
     if (!_indicatorView) {
         _indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         [self addSubview:_indicatorView];
-//        [_indicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.center.mas_equalTo(0);
-//        }];
+        [_indicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.mas_equalTo(0);
+        }];
     }
     return _indicatorView;
 }
@@ -584,17 +610,20 @@ static const CGFloat kCtrViewShowedTime = 7;
 }
 
 - (AVPlayer*)player {
+    
     return [(AVPlayerLayer *)[self layer] player];
 }
 
 - (void)setPlayer:(AVPlayer *)player {
-    [(AVPlayerLayer *)[self playerLayer] setPlayer:player];
+    
+    [(AVPlayerLayer *)[self bkPlayerLayer] setPlayer:player];
     [self addObservesForPlayerItem];
     [self configureVolume];
     [self.indicatorView startAnimating];
 }
 
-- (AVPlayerLayer *)playerLayer{
+- (AVPlayerLayer *)bkPlayerLayer{
+    
     AVPlayerLayer *currtentLayer = (AVPlayerLayer *)self.layer;
     currtentLayer.videoGravity = AVLayerVideoGravityResize;
     return currtentLayer;
@@ -602,8 +631,7 @@ static const CGFloat kCtrViewShowedTime = 7;
 
 - (void)dealloc {
     
-    
-    [self.player removeTimeObserver:_timeObservation];
+    [_bkPlayer removeTimeObserver:_timeObservation];
     _timeObservation = nil;
     [self removeObserver:self forKeyPath:@"player.currentItem.status"];
     [self removeObserver:self forKeyPath:@"player.currentItem.loadedTimeRanges"];

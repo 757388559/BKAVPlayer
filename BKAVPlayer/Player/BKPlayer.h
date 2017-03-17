@@ -11,34 +11,33 @@
 #import "BKPlayerControlView.h"
 
 typedef enum : NSUInteger {
-    BKPlayerStatusReadyToPlay = 0,
-    BKPlayerStatusBuffering = 1,
-    BKPlayerStatusPlaying = 2,
-    BKPlayerStatusFailed = 3,
-    BKPlayerStatusPause = 4,
-    BKPlayerStatusStop = 5,
+    BKPlayerStatusReadyToPlay = 1,
+    BKPlayerStatusBuffering = 2,
+    BKPlayerStatusPlaying = 3,
+    BKPlayerStatusFailed = 4,
+    BKPlayerStatusPause = 5,
+    BKPlayerStatusStop = 6,
 } BKPlayerStatus;
 
 typedef void(^GoBackBlock)(void);
 
 @interface BKPlayer : UIView
 
-/// player.
-@property(nonatomic) AVPlayer *player;
-/// current playerLayer.
-@property(nonatomic, readonly) AVPlayerLayer *playerLayer;
-/// current item.
-@property (nonatomic, strong) AVPlayerItem *playerItem;
-/// normalFrame.
+/// NormalFrame.
 @property (nonatomic, assign) CGRect normalFrame;
-/// is full screen.
-@property (nonatomic , assign) BOOL isFullScreen;
-/// control View.
-@property (nonatomic , strong) BKPlayerControlView *controlView;
 /// status.
 @property (nonatomic , assign) BKPlayerStatus playerStatus;
 /// close block.
 @property (nonatomic , copy) GoBackBlock goBackBlock;
+/// Current item.
+@property (nonatomic, strong , readonly) AVPlayerItem *bkPlayerItem;
+
+- (instancetype)initWithUrl:(NSURL *)url;
+- (instancetype)initWithPlayerItem:(AVPlayerItem *)playerItem;
+
+- (void)play;
+- (void)pause;
+- (void)replaceCurrentItemWithPlayerItem:(AVPlayerItem *)item;
 
 @end
 

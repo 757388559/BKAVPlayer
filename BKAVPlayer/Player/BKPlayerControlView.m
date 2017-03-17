@@ -132,7 +132,7 @@ static const CGFloat leftMargin = 15;
     
     if (!_topCtrView) {
         _topCtrView = [[UIView alloc] init];
-//        _topCtrView.backgroundColor = kCommonRGBAColor(0, 0, 0, .95);
+        _topCtrView.backgroundColor = kRGBAColor(0, 0, 0, .95);
         [self addSubview:_topCtrView];
     }
     return _topCtrView;
@@ -142,7 +142,7 @@ static const CGFloat leftMargin = 15;
     
     if (!_bottomCtrView) {
         _bottomCtrView = [[UIView alloc] init];
-//        _bottomCtrView.backgroundColor = kCommonRGBAColor(0, 0, 0, .95);
+        _bottomCtrView.backgroundColor = kRGBAColor(0, 0, 0, .95);
         [self addSubview:_bottomCtrView];
     }
     return _bottomCtrView;
@@ -152,8 +152,8 @@ static const CGFloat leftMargin = 15;
     
     if (!_btnPlay) {
         _btnPlay = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_btnPlay setImage:[UIImage svgImageNamed:@"alEBook_player_play_icon" imageSize:CGSizeMake(13, 17.5)] forState:UIControlStateNormal];
-//        [_btnPlay setImage:[UIImage svgImageNamed:@"alEBook_player_pause_icon" imageSize:CGSizeMake(13, 17.5)] forState:UIControlStateSelected];
+        [_btnPlay setImage:[UIImage imageNamed:@"video_play"] forState:UIControlStateNormal];
+        [_btnPlay setImage:[UIImage imageNamed:@"video_pause"] forState:UIControlStateSelected];
         [self.bottomCtrView addSubview:_btnPlay];
     }
     return _btnPlay;
@@ -164,8 +164,8 @@ static const CGFloat leftMargin = 15;
     if (!_btnGoBack) {
         _btnGoBack = [UIButton buttonWithType:UIButtonTypeCustom];
         [_btnGoBack setTitle:@"关闭" forState:UIControlStateNormal];
-//        _btnGoBack.titleLabel.font = Font_Hei(15);
-//        [_btnGoBack setTitleColor:kCommonRGBColor(255, 255, 255) forState:UIControlStateNormal];
+        _btnGoBack.titleLabel.font = [UIFont systemFontOfSize:15];
+        [_btnGoBack setTitleColor:kRGBColor(255, 255, 255) forState:UIControlStateNormal];
         [self.topCtrView addSubview:_btnGoBack];
     }
     return _btnGoBack;
@@ -175,8 +175,8 @@ static const CGFloat leftMargin = 15;
     
     if (!_btnFullScreen) {
         _btnFullScreen = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_btnFullScreen setImage:[UIImage svgImageNamed:@"alEBook_player_fullScreen_icon" imageSize:CGSizeMake(14, 14)] forState:UIControlStateNormal];
-//        [_btnFullScreen setImage:[UIImage svgImageNamed:@"alEBook_player_normalScreen_icon" imageSize:CGSizeMake(14, 14)] forState:UIControlStateSelected];
+        [_btnFullScreen setImage:[UIImage imageNamed:@"video_normalScreen"] forState:UIControlStateNormal];
+        [_btnFullScreen setImage:[UIImage imageNamed:@"video_fullScreen"] forState:UIControlStateNormal];
         [self.bottomCtrView addSubview:_btnFullScreen];
     }
     return _btnFullScreen;
@@ -217,7 +217,7 @@ static const CGFloat leftMargin = 15;
     
     if (!_sliderTime) {
         _sliderTime = [[UISlider alloc] init];
-//        [_sliderTime setThumbImage:[UIImage svgImageNamed:@"alEBook_player_trunck_icon" imageSize:CGSizeMake(14, 14)] forState:UIControlStateNormal];
+        [_sliderTime setThumbImage:[UIImage imageNamed:@"video_trunck"] forState:UIControlStateNormal];
         _sliderTime.backgroundColor = [UIColor clearColor];
         _sliderTime.maximumTrackTintColor = [UIColor clearColor];
         _sliderTime.minimumTrackTintColor = [UIColor whiteColor];

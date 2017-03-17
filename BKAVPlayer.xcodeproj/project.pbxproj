@@ -13,6 +13,7 @@
 		0A619E891E7A97B800CC3054 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A619E871E7A97B800CC3054 /* LaunchScreen.storyboard */; };
 		0A619E961E7A983B00CC3054 /* BKPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A619E931E7A983B00CC3054 /* BKPlayer.m */; };
 		0A619E971E7A983B00CC3054 /* BKPlayerControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A619E951E7A983B00CC3054 /* BKPlayerControlView.m */; };
+		0A619E9B1E7BD27700CC3054 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A619E9A1E7BD27700CC3054 /* MainViewController.m */; };
 		EB82B7F4EEB1D3D6DEC633B3 /* libPods-BKAVPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 798F7904749045D6CD66C854 /* libPods-BKAVPlayer.a */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,8 @@
 		0A619E941E7A983B00CC3054 /* BKPlayerControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPlayerControlView.h; sourceTree = "<group>"; };
 		0A619E951E7A983B00CC3054 /* BKPlayerControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPlayerControlView.m; sourceTree = "<group>"; };
 		0A619E981E7ACD5400CC3054 /* BKHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKHeader.h; sourceTree = "<group>"; };
+		0A619E991E7BD27700CC3054 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		0A619E9A1E7BD27700CC3054 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		3BC5112A578268E11C8B8E9B /* Pods-BKAVPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKAVPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-BKAVPlayer/Pods-BKAVPlayer.release.xcconfig"; sourceTree = "<group>"; };
 		68A744B1F9F47C5E355EC8E0 /* Pods-BKAVPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKAVPlayer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKAVPlayer/Pods-BKAVPlayer.debug.xcconfig"; sourceTree = "<group>"; };
 		798F7904749045D6CD66C854 /* libPods-BKAVPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BKAVPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +73,8 @@
 				0A619E821E7A97B800CC3054 /* AppDelegate.h */,
 				0A619E831E7A97B800CC3054 /* AppDelegate.m */,
 				0A619E981E7ACD5400CC3054 /* BKHeader.h */,
+				0A619E991E7BD27700CC3054 /* MainViewController.h */,
+				0A619E9A1E7BD27700CC3054 /* MainViewController.m */,
 				0A619E911E7A980C00CC3054 /* Player */,
 				0A619E851E7A97B800CC3054 /* Assets.xcassets */,
 				0A619E871E7A97B800CC3054 /* LaunchScreen.storyboard */,
@@ -239,6 +244,7 @@
 				0A619E841E7A97B800CC3054 /* AppDelegate.m in Sources */,
 				0A619E961E7A983B00CC3054 /* BKPlayer.m in Sources */,
 				0A619E971E7A983B00CC3054 /* BKPlayerControlView.m in Sources */,
+				0A619E9B1E7BD27700CC3054 /* MainViewController.m in Sources */,
 				0A619E811E7A97B800CC3054 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
