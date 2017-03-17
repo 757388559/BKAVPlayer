@@ -9,6 +9,7 @@
 
 
 #import "BKPlayerControlView.h"
+#import "Masonry.h"
 
 static const CGFloat topCtrViewHeight = 44;
 static const CGFloat bottomCtrViewHeight = 44;
@@ -74,56 +75,56 @@ static const CGFloat leftMargin = 15;
 
 #pragma mark - Mark subviews Constraints
 
-//- (void)markSubviewsContraints {
-//    
-//    [self.topCtrView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.right.left.mas_equalTo(0);
-//        make.height.mas_equalTo(topCtrViewHeight);
-//    }];
-//    [self.bottomCtrView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.right.left.mas_equalTo(0);
-//        make.height.mas_equalTo(bottomCtrViewHeight);
-//    }];
-//    [self.btnGoBack mas_makeConstraints:^(MASConstraintMaker *make) {
+- (void)markSubviewsContraints {
+    
+    [self.topCtrView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.left.mas_equalTo(0);
+        make.height.mas_equalTo(topCtrViewHeight);
+    }];
+    [self.bottomCtrView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.right.left.mas_equalTo(0);
+        make.height.mas_equalTo(bottomCtrViewHeight);
+    }];
+    [self.btnGoBack mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(leftMargin);
+        make.centerY.mas_equalTo(0);
+    }];
+    [self.btnPlay mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.left.mas_equalTo(leftMargin);
-//        make.centerY.mas_equalTo(0);
-//    }];
-//    [self.btnPlay mas_makeConstraints:^(MASConstraintMaker *make) {
-////        make.left.mas_equalTo(leftMargin);
-//        make.left.mas_equalTo(0);
-//        make.width.height.mas_equalTo(44);
-//        make.centerY.mas_equalTo(0);
-//    }];
-//    [self.labCurrentTime mas_makeConstraints:^(MASConstraintMaker *make) {
-////        make.left.equalTo(self.btnPlay.mas_right).offset(space);
-//        make.left.equalTo(self.btnPlay.mas_right);
-//        make.centerY.mas_equalTo(0);
-//    }];
-//    [self.btnFullScreen mas_makeConstraints:^(MASConstraintMaker *make) {
-////        make.right.mas_equalTo(-leftMargin);
-//        make.right.mas_equalTo(0);
-//        make.width.height.mas_equalTo(44);
-//        make.centerY.mas_equalTo(0);
-//    }];
-//    [self.labRemainTime mas_makeConstraints:^(MASConstraintMaker *make) {
-////        make.right.equalTo(self.btnFullScreen.mas_left).offset(-space);
-//        make.right.equalTo(self.btnFullScreen.mas_left);
-//        make.centerY.mas_equalTo(0);
-//    }];
-//    
-//    [self.sliderTime mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(self.labCurrentTime.mas_right).offset(space);
-//        make.right.equalTo(self.labRemainTime.mas_left).offset(-space);
-//        make.centerY.mas_equalTo(0);
-//    }];
-//    
-//    [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(self.sliderTime.mas_left);
-//        make.right.equalTo(self.sliderTime.mas_right);
-//        make.centerY.equalTo(self.sliderTime.mas_centerY);
-//    }];
-//    [self.bottomCtrView bringSubviewToFront:self.sliderTime];
-//}
+        make.left.mas_equalTo(0);
+        make.width.height.mas_equalTo(44);
+        make.centerY.mas_equalTo(0);
+    }];
+    [self.labCurrentTime mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.btnPlay.mas_right).offset(space);
+        make.left.equalTo(self.btnPlay.mas_right);
+        make.centerY.mas_equalTo(0);
+    }];
+    [self.btnFullScreen mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.mas_equalTo(-leftMargin);
+        make.right.mas_equalTo(0);
+        make.width.height.mas_equalTo(44);
+        make.centerY.mas_equalTo(0);
+    }];
+    [self.labRemainTime mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(self.btnFullScreen.mas_left).offset(-space);
+        make.right.equalTo(self.btnFullScreen.mas_left);
+        make.centerY.mas_equalTo(0);
+    }];
+    
+    [self.sliderTime mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.labCurrentTime.mas_right).offset(space);
+        make.right.equalTo(self.labRemainTime.mas_left).offset(-space);
+        make.centerY.mas_equalTo(0);
+    }];
+    
+    [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.sliderTime.mas_left);
+        make.right.equalTo(self.sliderTime.mas_right);
+        make.centerY.equalTo(self.sliderTime.mas_centerY);
+    }];
+    [self.bottomCtrView bringSubviewToFront:self.sliderTime];
+}
 
 #pragma mark - setter and getter
 

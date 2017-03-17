@@ -13,6 +13,7 @@
 		0A619E891E7A97B800CC3054 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A619E871E7A97B800CC3054 /* LaunchScreen.storyboard */; };
 		0A619E961E7A983B00CC3054 /* BKPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A619E931E7A983B00CC3054 /* BKPlayer.m */; };
 		0A619E971E7A983B00CC3054 /* BKPlayerControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A619E951E7A983B00CC3054 /* BKPlayerControlView.m */; };
+		EB82B7F4EEB1D3D6DEC633B3 /* libPods-BKAVPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 798F7904749045D6CD66C854 /* libPods-BKAVPlayer.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,10 @@
 		0A619E931E7A983B00CC3054 /* BKPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPlayer.m; sourceTree = "<group>"; };
 		0A619E941E7A983B00CC3054 /* BKPlayerControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPlayerControlView.h; sourceTree = "<group>"; };
 		0A619E951E7A983B00CC3054 /* BKPlayerControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPlayerControlView.m; sourceTree = "<group>"; };
+		0A619E981E7ACD5400CC3054 /* BKHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKHeader.h; sourceTree = "<group>"; };
+		3BC5112A578268E11C8B8E9B /* Pods-BKAVPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKAVPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-BKAVPlayer/Pods-BKAVPlayer.release.xcconfig"; sourceTree = "<group>"; };
+		68A744B1F9F47C5E355EC8E0 /* Pods-BKAVPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKAVPlayer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKAVPlayer/Pods-BKAVPlayer.debug.xcconfig"; sourceTree = "<group>"; };
+		798F7904749045D6CD66C854 /* libPods-BKAVPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BKAVPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB82B7F4EEB1D3D6DEC633B3 /* libPods-BKAVPlayer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +51,8 @@
 			children = (
 				0A619E7E1E7A97B800CC3054 /* BKAVPlayer */,
 				0A619E7D1E7A97B800CC3054 /* Products */,
+				7EBD0C0AAB2569D820CABA6C /* Pods */,
+				564899CBF1F5F48835757A7E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,6 +69,7 @@
 			children = (
 				0A619E821E7A97B800CC3054 /* AppDelegate.h */,
 				0A619E831E7A97B800CC3054 /* AppDelegate.m */,
+				0A619E981E7ACD5400CC3054 /* BKHeader.h */,
 				0A619E911E7A980C00CC3054 /* Player */,
 				0A619E851E7A97B800CC3054 /* Assets.xcassets */,
 				0A619E871E7A97B800CC3054 /* LaunchScreen.storyboard */,
@@ -89,6 +98,23 @@
 			path = Player;
 			sourceTree = "<group>";
 		};
+		564899CBF1F5F48835757A7E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				798F7904749045D6CD66C854 /* libPods-BKAVPlayer.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7EBD0C0AAB2569D820CABA6C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				68A744B1F9F47C5E355EC8E0 /* Pods-BKAVPlayer.debug.xcconfig */,
+				3BC5112A578268E11C8B8E9B /* Pods-BKAVPlayer.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -96,9 +122,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A619E8D1E7A97B800CC3054 /* Build configuration list for PBXNativeTarget "BKAVPlayer" */;
 			buildPhases = (
+				D4E41233FF03FD02BAD164F1 /* [CP] Check Pods Manifest.lock */,
 				0A619E781E7A97B800CC3054 /* Sources */,
 				0A619E791E7A97B800CC3054 /* Frameworks */,
 				0A619E7A1E7A97B800CC3054 /* Resources */,
+				68BE28CC5B15C05D08BCE74A /* [CP] Embed Pods Frameworks */,
+				21D3EB114276D03135D7E9B6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -153,6 +182,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		21D3EB114276D03135D7E9B6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BKAVPlayer/Pods-BKAVPlayer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		68BE28CC5B15C05D08BCE74A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BKAVPlayer/Pods-BKAVPlayer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D4E41233FF03FD02BAD164F1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0A619E781E7A97B800CC3054 /* Sources */ = {
@@ -210,6 +287,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/BKAVPlayer/BKHeader.h";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -224,6 +302,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 			};
 			name = Debug;
 		};
@@ -255,6 +334,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/BKAVPlayer/BKHeader.h";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -264,29 +344,34 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		0A619E8E1E7A97B800CC3054 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 68A744B1F9F47C5E355EC8E0 /* Pods-BKAVPlayer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BKAVPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = liugangyi.BKAVPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 			};
 			name = Debug;
 		};
 		0A619E8F1E7A97B800CC3054 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3BC5112A578268E11C8B8E9B /* Pods-BKAVPlayer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BKAVPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = liugangyi.BKAVPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 			};
 			name = Release;
 		};
@@ -309,6 +394,7 @@
 				0A619E8F1E7A97B800CC3054 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
