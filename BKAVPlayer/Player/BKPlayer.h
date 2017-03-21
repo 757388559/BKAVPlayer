@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "BKPlayerControlView.h"
 
 typedef enum : NSUInteger {
     BKPlayerStatusReadyToPlay = 1,
@@ -29,11 +28,8 @@ typedef void(^GoBackBlock)(void);
 @property (nonatomic , assign) BKPlayerStatus playerStatus;
 /// close block.
 @property (nonatomic , copy) GoBackBlock goBackBlock;
-/// Current item.
-@property (nonatomic, strong , readonly) AVPlayerItem *bkPlayerItem;
 
-- (instancetype)initWithUrl:(NSURL *)url;
-- (instancetype)initWithPlayerItem:(AVPlayerItem *)playerItem;
+- (void)playWithUrl:(NSURL *)url;
 
 - (void)play;
 - (void)pause;

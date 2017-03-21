@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A4B064A1E7FADF800FD0395 /* BKPlayerResourceLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4B06491E7FADF800FD0395 /* BKPlayerResourceLoader.m */; };
+		0A4B064E1E80B55900FD0395 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A4B064D1E80B55900FD0395 /* Main.storyboard */; };
+		0A4B06511E80B70D00FD0395 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4B06501E80B70D00FD0395 /* VideoViewController.m */; };
 		0A619E811E7A97B800CC3054 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A619E801E7A97B800CC3054 /* main.m */; };
 		0A619E841E7A97B800CC3054 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A619E831E7A97B800CC3054 /* AppDelegate.m */; };
 		0A619E861E7A97B800CC3054 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A619E851E7A97B800CC3054 /* Assets.xcassets */; };
@@ -18,6 +21,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A4B06481E7FADF800FD0395 /* BKPlayerResourceLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPlayerResourceLoader.h; sourceTree = "<group>"; };
+		0A4B06491E7FADF800FD0395 /* BKPlayerResourceLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPlayerResourceLoader.m; sourceTree = "<group>"; };
+		0A4B064D1E80B55900FD0395 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		0A4B064F1E80B70D00FD0395 /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
+		0A4B06501E80B70D00FD0395 /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
 		0A619E7C1E7A97B800CC3054 /* BKAVPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BKAVPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A619E801E7A97B800CC3054 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0A619E821E7A97B800CC3054 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -73,8 +81,11 @@
 				0A619E821E7A97B800CC3054 /* AppDelegate.h */,
 				0A619E831E7A97B800CC3054 /* AppDelegate.m */,
 				0A619E981E7ACD5400CC3054 /* BKHeader.h */,
+				0A4B064F1E80B70D00FD0395 /* VideoViewController.h */,
+				0A4B06501E80B70D00FD0395 /* VideoViewController.m */,
 				0A619E991E7BD27700CC3054 /* MainViewController.h */,
 				0A619E9A1E7BD27700CC3054 /* MainViewController.m */,
+				0A4B064D1E80B55900FD0395 /* Main.storyboard */,
 				0A619E911E7A980C00CC3054 /* Player */,
 				0A619E851E7A97B800CC3054 /* Assets.xcassets */,
 				0A619E871E7A97B800CC3054 /* LaunchScreen.storyboard */,
@@ -99,6 +110,8 @@
 				0A619E931E7A983B00CC3054 /* BKPlayer.m */,
 				0A619E941E7A983B00CC3054 /* BKPlayerControlView.h */,
 				0A619E951E7A983B00CC3054 /* BKPlayerControlView.m */,
+				0A4B06481E7FADF800FD0395 /* BKPlayerResourceLoader.h */,
+				0A4B06491E7FADF800FD0395 /* BKPlayerResourceLoader.m */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -181,6 +194,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A4B064E1E80B55900FD0395 /* Main.storyboard in Resources */,
 				0A619E861E7A97B800CC3054 /* Assets.xcassets in Resources */,
 				0A619E891E7A97B800CC3054 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -245,6 +259,8 @@
 				0A619E961E7A983B00CC3054 /* BKPlayer.m in Sources */,
 				0A619E971E7A983B00CC3054 /* BKPlayerControlView.m in Sources */,
 				0A619E9B1E7BD27700CC3054 /* MainViewController.m in Sources */,
+				0A4B06511E80B70D00FD0395 /* VideoViewController.m in Sources */,
+				0A4B064A1E7FADF800FD0395 /* BKPlayerResourceLoader.m in Sources */,
 				0A619E811E7A97B800CC3054 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

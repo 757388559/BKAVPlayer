@@ -22,7 +22,7 @@ static const CGFloat leftMargin = 15;
 {
     self = [super init];
     if (self) {
-//        [self markSubviewsContraints];
+        [self markSubviewsContraints];
     }
     return self;
 }
@@ -142,7 +142,8 @@ static const CGFloat leftMargin = 15;
     
     if (!_bottomCtrView) {
         _bottomCtrView = [[UIView alloc] init];
-        _bottomCtrView.backgroundColor = kRGBAColor(0, 0, 0, .95);
+//        _bottomCtrView.backgroundColor = kRGBAColor(0, 0, 0, .95);
+        _bottomCtrView.backgroundColor = [UIColor grayColor];
         [self addSubview:_bottomCtrView];
     }
     return _bottomCtrView;

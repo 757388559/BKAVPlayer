@@ -7,8 +7,10 @@
 //
 
 #import "BKPlayer.h"
-#import <MediaPlayer/MediaPlayer.h>
 #import "Masonry.h"
+#import <MediaPlayer/MediaPlayer.h>
+#import "BKPlayerControlView.h"
+#import "BKPlayerResourceLoader.h"
 
 typedef enum : NSUInteger {
     PanDirectionVerticalMoved,
@@ -21,10 +23,14 @@ static const CGFloat kCtrViewShowedTime = 7;
 @interface BKPlayer ()
 
 /// Player.
-@property(nonatomic) AVPlayer *bkPlayer;
+@property (nonatomic , strong) AVPlayer *bkPlayer;
 /// Current playerLayer.
-@property(nonatomic, readonly) AVPlayerLayer *bkPlayerLayer;
-/// Url
+@property (nonatomic , readonly) AVPlayerLayer *bkPlayerLayer;
+/// Current item.
+@property (nonatomic , strong) AVPlayerItem *bkPlayerItem;
+/// Url Assert.
+@property (nonatomic , strong) AVURLAsset *videoAsset;
+/// Play url
 @property (nonatomic , strong) NSURL *url;
 /// Full screen.
 @property (nonatomic , assign) BOOL isFullScreen;
@@ -50,6 +56,11 @@ static const CGFloat kCtrViewShowedTime = 7;
 @property (nonatomic , strong) UIActivityIndicatorView *indicatorView;
 /// Video nature size.
 @property (nonatomic , assign) CGSize natureSize;
+/// Video resourceLoader.
+@property (nonatomic , strong) BKPlayerResourceLoader *bkResourceLoader;
+
+
+
 
 @end
 
@@ -59,30 +70,40 @@ static const CGFloat kCtrViewShowedTime = 7;
     
     self = [super init];
     if (self) {
-        [self addNotifications];
-        [self setPlayerCtrViewAction];
-        [self fadeInCtrView];
+        
     }
     return self;
 }
 
-- (instancetype)initWithUrl:(NSURL *)url {
+
+- (void)playWithUrl:(NSURL *)url {
     
-    if ([self init]) {
-        _url = url;
-        AVPlayer *avplayer = [[AVPlayer alloc] initWithURL:url];
-        self.player = avplayer;
+    
+    _url = url;
+    
+//    NSURL *playUrl = [self.bkResourceLoader getSchemeVideoUrl:url];
+    self.videoAsset = [AVURLAsset URLAssetWithURL:url options:nil];
+    [self.videoAsset.resourceLoader setDelegate:self.bkResourceLoader queue:dispatch_get_main_queue()];
+    
+    self.bkPlayerItem = [AVPlayerItem playerItemWithAsset:self.videoAsset];
+    
+    if (!self.bkPlayer) {
+        self.bkPlayer = [[AVPlayer alloc] initWithPlayerItem:self.bkPlayerItem];
+    } else {
+        [self.bkPlayer replaceCurrentItemWithPlayerItem:self.bkPlayerItem];
     }
-    return self;
+    
+    [self createVideo];
 }
 
-- (instancetype)initWithPlayerItem:(AVPlayerItem *)playerItem {
+- (void)createVideo {
     
-    if ([self init]) {
-        AVPlayer *avplayer = [[AVPlayer alloc] initWithPlayerItem:playerItem];
-        self.player = avplayer;
-    }
-    return self;
+    [self setPlayerCtrViewAction];
+    [self addObservesForPlayerItem];
+    [self configureVolume];
+    [self addNotifications];
+    [self fadeInCtrView];
+    [self.indicatorView startAnimating];
 }
 
 #pragma mark - 通知和观察者方法的实现
@@ -140,7 +161,7 @@ static const CGFloat kCtrViewShowedTime = 7;
             if (self.panDirection == PanDirectionHorizontalMoved) {
                 
                 CMTime slideTime =CMTimeMake(self.totalDuration * self.controlView.sliderTime.value, 1);
-                [self.player seekToTime:slideTime completionHandler:^(BOOL finished) {
+                [self.bkPlayer seekToTime:slideTime completionHandler:^(BOOL finished) {
                     [self play];
                 }];
             }
@@ -218,36 +239,36 @@ static const CGFloat kCtrViewShowedTime = 7;
 
 - (void)applicationDidEnterBackground {
     
-    [self.player pause];
+    [self.bkPlayer pause];
     self.didEnterBackground = YES;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     
-        if ([keyPath isEqualToString:@"player.currentItem.status"]) {
-            if (self.player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
+        if ([keyPath isEqualToString:@"bkPlayer.currentItem.status"]) {
+            if (self.bkPlayer.currentItem.status == AVPlayerItemStatusReadyToPlay) {
                 // 平移手势 快进后退
                 UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureForView:)];
                 [self addGestureRecognizer:panGesture];
                 self.playerStatus = BKPlayerStatusReadyToPlay;
-                self.totalDuration = CMTimeGetSeconds(self.player.currentItem.duration);
+                self.totalDuration = CMTimeGetSeconds(self.bkPlayer.currentItem.duration);
                 self.controlView.labRemainTime.text = [self fomatTimeStr:self.totalDuration];
                 self.controlView.btnPlay.userInteractionEnabled = self.controlView.sliderTime.userInteractionEnabled = YES;
-            } else if (self.player.currentItem.status == AVPlayerItemStatusFailed) {
+            } else if (self.bkPlayer.currentItem.status == AVPlayerItemStatusFailed) {
                 self.playerStatus = BKPlayerStatusFailed;
             }
-        } else if ([keyPath isEqualToString:@"player.currentItem.loadedTimeRanges"]) {
+        } else if ([keyPath isEqualToString:@"bkPlayer.currentItem.loadedTimeRanges"]) {
             // 设置缓冲值
             NSTimeInterval timeCache = [self availableCacheDuration];
-            CGFloat totalTime = CMTimeGetSeconds(self.player.currentItem.duration);
+            CGFloat totalTime = CMTimeGetSeconds(self.bkPlayer.currentItem.duration);
             [self.controlView.progressView setProgress:timeCache/totalTime animated:NO];
             // 如果缓冲的和当期的播放slider差值为0.1，自动播放(以防弱网情况下不会自动播放)
             if (!self.isUserPaused && !self.didEnterBackground && (self.controlView.progressView.progress-self.controlView.sliderTime.value > 0.05)) {
                 [self play];
             }
-        } else if ([keyPath isEqualToString:@"player.currentItem.playbackBufferEmpty"]) {
+        } else if ([keyPath isEqualToString:@"bkPlayer.currentItem.playbackBufferEmpty"]) {
             // 缓冲是空的时候
-            if (self.player.currentItem.playbackBufferEmpty) {
+            if (self.bkPlayer.currentItem.playbackBufferEmpty) {
                 self.playerStatus = BKPlayerStatusBuffering;
                 if (![self.indicatorView isAnimating]) {
                     [self.indicatorView startAnimating];
@@ -255,9 +276,9 @@ static const CGFloat kCtrViewShowedTime = 7;
                 }
             }
             
-        } else if ([keyPath isEqualToString:@"player.currentItem.playbackLikelyToKeepUp"]) {
+        } else if ([keyPath isEqualToString:@"bkPlayer.currentItem.playbackLikelyToKeepUp"]) {
             // 缓冲好的时候
-            if (self.player.currentItem.playbackLikelyToKeepUp) {
+            if (self.bkPlayer.currentItem.playbackLikelyToKeepUp) {
                 self.playerStatus = BKPlayerStatusReadyToPlay;
                 [self.indicatorView stopAnimating];
             }
@@ -272,16 +293,16 @@ static const CGFloat kCtrViewShowedTime = 7;
     // 播放结束通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.bkPlayerItem];
     // item 当前状态
-    [self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"bkPlayer.currentItem.status" options:NSKeyValueObservingOptionNew context:nil];
     // 缓冲了多长时间
-    [self addObserver:self forKeyPath:@"player.currentItem.loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"bkPlayer.currentItem.loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
     // 缓冲区空了，需要等待数据
-    [self addObserver:self forKeyPath:@"player.currentItem.playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"bkPlayer.currentItem.playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
     // 缓冲区有足够数据可以播放了
-    [self addObserver:self forKeyPath:@"player.currentItem.playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"bkPlayer.currentItem.playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
     // 实时播放时间
     WS(weakSelf);
-    self.timeObservation = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+    self.timeObservation = [self.bkPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         CGFloat currentTime = CMTimeGetSeconds(time);
         // 设置播放时间
         weakSelf.controlView.labCurrentTime.text = [weakSelf fomatTimeStr:currentTime];
@@ -379,13 +400,13 @@ static const CGFloat kCtrViewShowedTime = 7;
     
     [self.indicatorView stopAnimating];
     self.controlView.btnPlay.selected = YES;
-    [self.player play];
+    [self.bkPlayer play];
 }
 
 - (void)pause {
     
     self.controlView.btnPlay.selected = NO;
-    [self.player pause];
+    [self.bkPlayer pause];
 }
 
 
@@ -410,7 +431,7 @@ static const CGFloat kCtrViewShowedTime = 7;
  计算缓冲区域
  */
 - (NSTimeInterval)availableCacheDuration {
-    NSArray *loadedTimeRanges = [self.player.currentItem loadedTimeRanges];
+    NSArray *loadedTimeRanges = [self.bkPlayer.currentItem loadedTimeRanges];
     CMTimeRange timeRange     = [loadedTimeRanges.firstObject CMTimeRangeValue];// 获取缓冲区域
     float startSeconds        = CMTimeGetSeconds(timeRange.start);
     float durationSeconds     = CMTimeGetSeconds(timeRange.duration);
@@ -552,15 +573,16 @@ static const CGFloat kCtrViewShowedTime = 7;
     // 把滑块的当前值换算为时间
     CGFloat valueTime = value * self.totalDuration;
     // 播放器跳到那个值
-    [self.player seekToTime:CMTimeMake(valueTime, 1) completionHandler:^(BOOL finished) {
+    [self.bkPlayer seekToTime:CMTimeMake(valueTime, 1) completionHandler:^(BOOL finished) {
         [self play];
     }];
 }
 
+
 #pragma mark - setter and getter
 
 - (AVPlayerItem *)bkPlayerItem {
-    return self.bkPlayer ? self.bkPlayer.currentItem:nil;
+    return self.bkPlayer ? self.bkPlayer.currentItem:_bkPlayerItem;
 }
 
 - (BKPlayerControlView *)controlView {
@@ -573,7 +595,7 @@ static const CGFloat kCtrViewShowedTime = 7;
         _controlView.btnPlay.userInteractionEnabled = NO;
         [self addSubview:_controlView];
         [_controlView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.top.bottom.equalTo(self);
+            make.top.left.bottom.right.mas_equalTo(0);
         }];
     }
     return _controlView;
@@ -602,6 +624,21 @@ static const CGFloat kCtrViewShowedTime = 7;
     return _indicatorView;
 }
 
+
+- (BKPlayerResourceLoader *)bkResourceLoader {
+    
+    if (!_bkResourceLoader) {
+        _bkResourceLoader = [[BKPlayerResourceLoader alloc] init];
+    }
+    return _bkResourceLoader;
+}
+
+- (void)setNormalFrame:(CGRect)normalFrame {
+    
+    _normalFrame = normalFrame;
+    self.frame = normalFrame;
+}
+
 #pragma mark - Class layer
 
 // Over ridde
@@ -609,17 +646,14 @@ static const CGFloat kCtrViewShowedTime = 7;
     return [AVPlayerLayer class];
 }
 
-- (AVPlayer*)player {
+- (AVPlayer*)bkPlayer {
     
     return [(AVPlayerLayer *)[self layer] player];
 }
 
-- (void)setPlayer:(AVPlayer *)player {
+- (void)setBkPlayer:(AVPlayer *)bkPlayer {
     
-    [(AVPlayerLayer *)[self bkPlayerLayer] setPlayer:player];
-    [self addObservesForPlayerItem];
-    [self configureVolume];
-    [self.indicatorView startAnimating];
+    [(AVPlayerLayer *)self.bkPlayerLayer setPlayer:bkPlayer];
 }
 
 - (AVPlayerLayer *)bkPlayerLayer{
@@ -631,12 +665,12 @@ static const CGFloat kCtrViewShowedTime = 7;
 
 - (void)dealloc {
     
-    [_bkPlayer removeTimeObserver:_timeObservation];
+    [self.bkPlayer removeTimeObserver:_timeObservation];
     _timeObservation = nil;
-    [self removeObserver:self forKeyPath:@"player.currentItem.status"];
-    [self removeObserver:self forKeyPath:@"player.currentItem.loadedTimeRanges"];
-    [self removeObserver:self forKeyPath:@"player.currentItem.playbackBufferEmpty"];
-    [self removeObserver:self forKeyPath:@"player.currentItem.playbackLikelyToKeepUp"];
+    [self removeObserver:self forKeyPath:@"bkPlayer.currentItem.status"];
+    [self removeObserver:self forKeyPath:@"bkPlayer.currentItem.loadedTimeRanges"];
+    [self removeObserver:self forKeyPath:@"bkPlayer.currentItem.playbackBufferEmpty"];
+    [self removeObserver:self forKeyPath:@"bkPlayer.currentItem.playbackLikelyToKeepUp"];
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 //    debugLog(@"%@ 播放器释放了" , self.class);
