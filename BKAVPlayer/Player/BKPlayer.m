@@ -69,10 +69,16 @@ static const CGFloat kCtrViewShowedTime = 7;
     
     self = [super init];
     if (self) {
-        if (!self.bkPlayer) {
-            self.bkPlayer = [[AVPlayer alloc] init];
-            [self createVideo];
-        }
+        [self createVideo];
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self createVideo];
     }
     return self;
 }
@@ -107,6 +113,10 @@ static const CGFloat kCtrViewShowedTime = 7;
 
 - (void)createVideo {
     
+    if (self.bkPlayer) {
+        return;
+    }
+    self.bkPlayer = [[AVPlayer alloc] init];
     [self setPlayerCtrViewAction];
     [self addObservesForPlayerItem];
     [self configureVolume];
@@ -324,7 +334,6 @@ static const CGFloat kCtrViewShowedTime = 7;
 
 - (void)addNotifications {
     
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     // 设备旋转
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChanged) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     // 进入前台
@@ -676,9 +685,8 @@ static const CGFloat kCtrViewShowedTime = 7;
     [self removeObserver:self forKeyPath:@"bkPlayer.currentItem.loadedTimeRanges"];
     [self removeObserver:self forKeyPath:@"bkPlayer.currentItem.playbackBufferEmpty"];
     [self removeObserver:self forKeyPath:@"bkPlayer.currentItem.playbackLikelyToKeepUp"];
-    [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-//    debugLog(@"%@ 播放器释放了" , self.class);
+    NSLog(@"%@ 播放器释放了" , self.class);
 }
 
 @end
