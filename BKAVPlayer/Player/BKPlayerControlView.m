@@ -138,12 +138,13 @@ static const CGFloat leftMargin = 15;
     return _topCtrView;
 }
 
+
 - (UIView *)bottomCtrView {
     
     if (!_bottomCtrView) {
         _bottomCtrView = [[UIView alloc] init];
 //        _bottomCtrView.backgroundColor = kRGBAColor(0, 0, 0, .95);
-        _bottomCtrView.backgroundColor = [UIColor grayColor];
+        _bottomCtrView.backgroundColor = [UIColor redColor];
         [self addSubview:_bottomCtrView];
     }
     return _bottomCtrView;

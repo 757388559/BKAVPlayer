@@ -10,6 +10,8 @@
 		0A4B064A1E7FADF800FD0395 /* BKPlayerResourceLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4B06491E7FADF800FD0395 /* BKPlayerResourceLoader.m */; };
 		0A4B064E1E80B55900FD0395 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A4B064D1E80B55900FD0395 /* Main.storyboard */; };
 		0A4B06511E80B70D00FD0395 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4B06501E80B70D00FD0395 /* VideoViewController.m */; };
+		0A4B06551E80F0B600FD0395 /* Download.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4B06541E80F0B600FD0395 /* Download.m */; };
+		0A4B065B1E81178200FD0395 /* BKPlayerCachePath.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4B065A1E81178200FD0395 /* BKPlayerCachePath.m */; };
 		0A619E811E7A97B800CC3054 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A619E801E7A97B800CC3054 /* main.m */; };
 		0A619E841E7A97B800CC3054 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A619E831E7A97B800CC3054 /* AppDelegate.m */; };
 		0A619E861E7A97B800CC3054 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A619E851E7A97B800CC3054 /* Assets.xcassets */; };
@@ -26,6 +28,10 @@
 		0A4B064D1E80B55900FD0395 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0A4B064F1E80B70D00FD0395 /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
 		0A4B06501E80B70D00FD0395 /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
+		0A4B06531E80F0B600FD0395 /* Download.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Download.h; sourceTree = "<group>"; };
+		0A4B06541E80F0B600FD0395 /* Download.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Download.m; sourceTree = "<group>"; };
+		0A4B06591E81178200FD0395 /* BKPlayerCachePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPlayerCachePath.h; sourceTree = "<group>"; };
+		0A4B065A1E81178200FD0395 /* BKPlayerCachePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPlayerCachePath.m; sourceTree = "<group>"; };
 		0A619E7C1E7A97B800CC3054 /* BKAVPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BKAVPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A619E801E7A97B800CC3054 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0A619E821E7A97B800CC3054 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -57,6 +63,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A4B06521E80EFF200FD0395 /* VideoDownload */ = {
+			isa = PBXGroup;
+			children = (
+				0A4B06531E80F0B600FD0395 /* Download.h */,
+				0A4B06541E80F0B600FD0395 /* Download.m */,
+				0A4B06591E81178200FD0395 /* BKPlayerCachePath.h */,
+				0A4B065A1E81178200FD0395 /* BKPlayerCachePath.m */,
+			);
+			path = VideoDownload;
+			sourceTree = "<group>";
+		};
 		0A619E731E7A97B800CC3054 = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +123,7 @@
 		0A619E911E7A980C00CC3054 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				0A4B06521E80EFF200FD0395 /* VideoDownload */,
 				0A619E921E7A983B00CC3054 /* BKPlayer.h */,
 				0A619E931E7A983B00CC3054 /* BKPlayer.m */,
 				0A619E941E7A983B00CC3054 /* BKPlayerControlView.h */,
@@ -260,6 +278,8 @@
 				0A619E971E7A983B00CC3054 /* BKPlayerControlView.m in Sources */,
 				0A619E9B1E7BD27700CC3054 /* MainViewController.m in Sources */,
 				0A4B06511E80B70D00FD0395 /* VideoViewController.m in Sources */,
+				0A4B06551E80F0B600FD0395 /* Download.m in Sources */,
+				0A4B065B1E81178200FD0395 /* BKPlayerCachePath.m in Sources */,
 				0A4B064A1E7FADF800FD0395 /* BKPlayerResourceLoader.m in Sources */,
 				0A619E811E7A97B800CC3054 /* main.m in Sources */,
 			);

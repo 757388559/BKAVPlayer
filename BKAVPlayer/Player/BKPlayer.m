@@ -11,6 +11,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "BKPlayerControlView.h"
 #import "BKPlayerResourceLoader.h"
+#import "BKPlayerCachePath.h"
 
 typedef enum : NSUInteger {
     PanDirectionVerticalMoved,
@@ -60,8 +61,6 @@ static const CGFloat kCtrViewShowedTime = 7;
 @property (nonatomic , strong) BKPlayerResourceLoader *bkResourceLoader;
 
 
-
-
 @end
 
 @implementation BKPlayer
@@ -70,7 +69,10 @@ static const CGFloat kCtrViewShowedTime = 7;
     
     self = [super init];
     if (self) {
-        
+        if (!self.bkPlayer) {
+            self.bkPlayer = [[AVPlayer alloc] init];
+            [self createVideo];
+        }
     }
     return self;
 }
@@ -80,20 +82,27 @@ static const CGFloat kCtrViewShowedTime = 7;
     
     
     _url = url;
-    
-//    NSURL *playUrl = [self.bkResourceLoader getSchemeVideoUrl:url];
-    self.videoAsset = [AVURLAsset URLAssetWithURL:url options:nil];
-    [self.videoAsset.resourceLoader setDelegate:self.bkResourceLoader queue:dispatch_get_main_queue()];
-    
-    self.bkPlayerItem = [AVPlayerItem playerItemWithAsset:self.videoAsset];
-    
-    if (!self.bkPlayer) {
-        self.bkPlayer = [[AVPlayer alloc] initWithPlayerItem:self.bkPlayerItem];
-    } else {
-        [self.bkPlayer replaceCurrentItemWithPlayerItem:self.bkPlayerItem];
-    }
-    
-    [self createVideo];
+    self.bkPlayerItem = [AVPlayerItem playerItemWithURL:url];
+    [self.bkPlayer replaceCurrentItemWithPlayerItem:self.bkPlayerItem];
+//    NSString *str = [url absoluteString];
+//    NSString *fileName = [[str componentsSeparatedByString:@"/"] lastObject];
+//    BKPlayerCachePath *fileCache = [[BKPlayerCachePath alloc] init];
+//    BOOL isExist = [fileCache existIncompleteVideo:fileName];
+//    // 本地
+//    if (isExist) {
+//        NSString *filePath = [fileCache videoPathWithFullFile:fileName];
+//        NSURL *cacheUrl = [NSURL fileURLWithPath:filePath];
+//        self.bkPlayerItem = [AVPlayerItem playerItemWithURL:cacheUrl];
+//    } else {
+//        self.bkResourceLoader.dataDownload.fileName = fileName;
+//        NSURL *playUrl = [self.bkResourceLoader getSchemeVideoUrl:url];
+//        self.videoAsset = [AVURLAsset URLAssetWithURL:url options:nil];
+//        [self.videoAsset.resourceLoader setDelegate:self.bkResourceLoader queue:dispatch_get_main_queue()];
+//        self.bkPlayerItem = [AVPlayerItem playerItemWithAsset:self.videoAsset];
+//    }
+
+//    [self.bkPlayer replaceCurrentItemWithPlayerItem:self.bkPlayerItem];
+//    [self createVideo];
 }
 
 - (void)createVideo {
@@ -581,10 +590,6 @@ static const CGFloat kCtrViewShowedTime = 7;
 
 #pragma mark - setter and getter
 
-- (AVPlayerItem *)bkPlayerItem {
-    return self.bkPlayer ? self.bkPlayer.currentItem:_bkPlayerItem;
-}
-
 - (BKPlayerControlView *)controlView {
     
     if (!_controlView) {
@@ -625,13 +630,13 @@ static const CGFloat kCtrViewShowedTime = 7;
 }
 
 
-- (BKPlayerResourceLoader *)bkResourceLoader {
-    
-    if (!_bkResourceLoader) {
-        _bkResourceLoader = [[BKPlayerResourceLoader alloc] init];
-    }
-    return _bkResourceLoader;
-}
+//- (BKPlayerResourceLoader *)bkResourceLoader {
+//    
+//    if (!_bkResourceLoader) {
+//        _bkResourceLoader = [[BKPlayerResourceLoader alloc] init];
+//    }
+//    return _bkResourceLoader;
+//}
 
 - (void)setNormalFrame:(CGRect)normalFrame {
     
