@@ -146,8 +146,10 @@ static const CGFloat kCtrViewShowedTime = 7;
  */
 - (void)panGestureForView:(UIPanGestureRecognizer *)sender {
     
+    CGPoint translation = [sender translationInView:self.controlView];
+    NSLog(@"%.2f , %2.f" , translation.x , translation.y);
     // 速率point-->判定 水平移动 垂直移动
-    CGPoint velocityPoint = [sender velocityInView:self];
+    CGPoint velocityPoint = [sender velocityInView:self.controlView];
     switch (sender.state) {
         case UIGestureRecognizerStateBegan:
         {
@@ -266,9 +268,6 @@ static const CGFloat kCtrViewShowedTime = 7;
     
         if ([keyPath isEqualToString:@"bkPlayer.currentItem.status"]) {
             if (self.bkPlayer.currentItem.status == AVPlayerItemStatusReadyToPlay) {
-                // 平移手势 快进后退
-                UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureForView:)];
-                [self addGestureRecognizer:panGesture];
                 self.playerStatus = BKPlayerStatusReadyToPlay;
                 self.totalDuration = CMTimeGetSeconds(self.bkPlayer.currentItem.duration);
                 self.controlView.labRemainTime.text = [self fomatTimeStr:self.totalDuration];
@@ -301,6 +300,12 @@ static const CGFloat kCtrViewShowedTime = 7;
                 self.playerStatus = BKPlayerStatusReadyToPlay;
                 [self.indicatorView stopAnimating];
             }
+        } else if ([keyPath isEqualToString:@"bkPlayer.rate"]) {
+            if (self.bkPlayer.rate == 1.0)
+                self.controlView.btnPlay.selected = YES;
+            else
+                self.controlView.btnPlay.selected = NO;
+
         }
 
 }
@@ -313,6 +318,8 @@ static const CGFloat kCtrViewShowedTime = 7;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.bkPlayerItem];
     // item 当前状态
     [self addObserver:self forKeyPath:@"bkPlayer.currentItem.status" options:NSKeyValueObservingOptionNew context:nil];
+    // 播放速率
+    [self addObserver:self forKeyPath:@"bkPlayer.rate" options:NSKeyValueObservingOptionNew context:nil];
     // 缓冲了多长时间
     [self addObserver:self forKeyPath:@"bkPlayer.currentItem.loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
     // 缓冲区空了，需要等待数据
@@ -342,11 +349,14 @@ static const CGFloat kCtrViewShowedTime = 7;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     // 单击 手势
     UITapGestureRecognizer *sigleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sigleTapForView:)];
-    [self addGestureRecognizer:sigleTap];
+    [self.controlView addGestureRecognizer:sigleTap];
+    // 平移手势 快进后退
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureForView:)];
+    [self.controlView addGestureRecognizer:panGesture];
     // 双击手势
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapForView:)];
     doubleTap.numberOfTapsRequired = 2;
-    [self addGestureRecognizer:doubleTap];
+    [self.controlView addGestureRecognizer:doubleTap];
 }
 
 - (void)setPlayerCtrViewAction {
@@ -379,9 +389,8 @@ static const CGFloat kCtrViewShowedTime = 7;
         case 1001:
         {
             // 播放/暂停
-            self.controlView.btnPlay.selected = !sender.selected;
             self.isUserPaused = !sender.selected;
-            if (sender.selected) {
+            if (!sender.selected) {
                 [self play];
                 if (self.playerStatus == BKPlayerStatusPause)
                     self.playerStatus = BKPlayerStatusPlaying;
@@ -417,13 +426,10 @@ static const CGFloat kCtrViewShowedTime = 7;
 - (void)play {
     
     [self.indicatorView stopAnimating];
-    self.controlView.btnPlay.selected = YES;
     [self.bkPlayer play];
 }
 
 - (void)pause {
-    
-    self.controlView.btnPlay.selected = NO;
     [self.bkPlayer pause];
 }
 
@@ -682,6 +688,7 @@ static const CGFloat kCtrViewShowedTime = 7;
     [self.bkPlayer removeTimeObserver:_timeObservation];
     _timeObservation = nil;
     [self removeObserver:self forKeyPath:@"bkPlayer.currentItem.status"];
+    [self removeObserver:self forKeyPath:@"bkPlayer.rate"];
     [self removeObserver:self forKeyPath:@"bkPlayer.currentItem.loadedTimeRanges"];
     [self removeObserver:self forKeyPath:@"bkPlayer.currentItem.playbackBufferEmpty"];
     [self removeObserver:self forKeyPath:@"bkPlayer.currentItem.playbackLikelyToKeepUp"];

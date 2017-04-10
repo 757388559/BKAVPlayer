@@ -19,6 +19,7 @@
 		0A619E961E7A983B00CC3054 /* BKPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A619E931E7A983B00CC3054 /* BKPlayer.m */; };
 		0A619E971E7A983B00CC3054 /* BKPlayerControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A619E951E7A983B00CC3054 /* BKPlayerControlView.m */; };
 		0A619E9B1E7BD27700CC3054 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A619E9A1E7BD27700CC3054 /* MainViewController.m */; };
+		0AA01B2B1E8A138C00462022 /* aaa.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0AA01B2A1E8A110B00462022 /* aaa.mp4 */; };
 		EB82B7F4EEB1D3D6DEC633B3 /* libPods-BKAVPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 798F7904749045D6CD66C854 /* libPods-BKAVPlayer.a */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		0A619E981E7ACD5400CC3054 /* BKHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKHeader.h; sourceTree = "<group>"; };
 		0A619E991E7BD27700CC3054 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		0A619E9A1E7BD27700CC3054 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		0AA01B2A1E8A110B00462022 /* aaa.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = aaa.mp4; sourceTree = "<group>"; };
 		3BC5112A578268E11C8B8E9B /* Pods-BKAVPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKAVPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-BKAVPlayer/Pods-BKAVPlayer.release.xcconfig"; sourceTree = "<group>"; };
 		68A744B1F9F47C5E355EC8E0 /* Pods-BKAVPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKAVPlayer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKAVPlayer/Pods-BKAVPlayer.debug.xcconfig"; sourceTree = "<group>"; };
 		798F7904749045D6CD66C854 /* libPods-BKAVPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BKAVPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +104,7 @@
 				0A4B06501E80B70D00FD0395 /* VideoViewController.m */,
 				0A619E991E7BD27700CC3054 /* MainViewController.h */,
 				0A619E9A1E7BD27700CC3054 /* MainViewController.m */,
+				0AA01B2A1E8A110B00462022 /* aaa.mp4 */,
 				0A4B064D1E80B55900FD0395 /* Main.storyboard */,
 				0A619E911E7A980C00CC3054 /* Player */,
 				0A619E851E7A97B800CC3054 /* Assets.xcassets */,
@@ -185,7 +188,8 @@
 				TargetAttributes = {
 					0A619E7B1E7A97B800CC3054 = {
 						CreatedOnToolsVersion = 8.2;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = M79YS8WCB4;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -212,6 +216,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AA01B2B1E8A138C00462022 /* aaa.mp4 in Resources */,
 				0A4B064E1E80B55900FD0395 /* Main.storyboard in Resources */,
 				0A619E861E7A97B800CC3054 /* Assets.xcassets in Resources */,
 				0A619E891E7A97B800CC3054 /* LaunchScreen.storyboard in Resources */,
@@ -396,10 +401,14 @@
 			baseConfigurationReference = 68A744B1F9F47C5E355EC8E0 /* Pods-BKAVPlayer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = M79YS8WCB4;
 				INFOPLIST_FILE = BKAVPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = liugangyi.BKAVPlayer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.allinmd.social;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c8e32df1-d8c0-4478-9dc3-ff044f9604bc";
+				PROVISIONING_PROFILE_SPECIFIER = AllinmdSocialProfile;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 			};
 			name = Debug;
@@ -409,10 +418,14 @@
 			baseConfigurationReference = 3BC5112A578268E11C8B8E9B /* Pods-BKAVPlayer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = M79YS8WCB4;
 				INFOPLIST_FILE = BKAVPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = liugangyi.BKAVPlayer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.allinmd.social;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c8e32df1-d8c0-4478-9dc3-ff044f9604bc";
+				PROVISIONING_PROFILE_SPECIFIER = AllinmdSocialProfile;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 			};
 			name = Release;

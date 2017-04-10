@@ -20,10 +20,11 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     
-    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"aaa.mp4" ofType:nil];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    //    url = [NSURL URLWithString:self.videoUrlStr];
     BKPlayer *player = [[BKPlayer alloc] init];
     player.normalFrame = CGRectMake(0, 150, self.view.bounds.size.width, 200);
-    NSURL *url = [NSURL URLWithString:self.videoUrlStr];
     
     [player playWithUrl:url];
     [self.view addSubview:player];
