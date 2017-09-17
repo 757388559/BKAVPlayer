@@ -70,11 +70,18 @@ NSString * const BKVideoCacheForIntegralPath = @"/videoIntegralCacheFile"; // ç¼
     return NO;
 }
 
++ (NSString *)cachePathForIntegralUrl:(NSURL *)url {
+    
+    return [[self cacheInteralPath] stringByAppendingPathComponent:url.lastPathComponent];
+}
+
 
 + (NSString *)cachePathForTempUrl:(NSURL *)url {
     
     return [[self cacheTempPath] stringByAppendingPathComponent:url.lastPathComponent];
 }
+
+
 
 + (NSString *)contentType:(NSURL *)url {
     

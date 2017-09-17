@@ -11,14 +11,14 @@
 @implementation NSURL (Scheme)
 
 
-- (NSURL *)streamingScheme {
+- (NSURL *)streamUrl {
     
     NSURLComponents *comments = [[NSURLComponents alloc] initWithURL:self resolvingAgainstBaseURL:NO];
     comments.scheme = @"streaming";
     return comments.URL;
 }
 
-- (NSURL *)httpScheme {
+- (NSURL *)httpUrl {
     
     NSURLComponents *comments = [[NSURLComponents alloc] initWithURL:self resolvingAgainstBaseURL:NO];
     comments.scheme = @"http";

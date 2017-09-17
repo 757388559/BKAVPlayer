@@ -89,13 +89,13 @@ static const CGFloat kCtrViewShowedTime = 7;
 - (void)playWithUrl:(NSURL *)url isCache:(BOOL)cache {
     
     AVURLAsset *currentAsset = (AVURLAsset *)self.bkPlayer.currentItem.asset;
-    if ([url isEqual:[currentAsset URL]] || [[url streamingScheme] isEqual:[currentAsset URL]] ) {
+    if ([url isEqual:[currentAsset URL]] || [[url streamUrl] isEqual:[currentAsset URL]] ) {
         NSLog(@"已经存在");
         return;
     }
     _url = url;
     if (cache) {
-        url = [url streamingScheme];
+        url = [url streamUrl];
     }
     
     // 资源请求代理

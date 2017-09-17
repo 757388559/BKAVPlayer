@@ -10,7 +10,7 @@
 
 @interface NSURL (Scheme)
 
-- (NSURL *)streamingScheme;
-- (NSURL *)httpScheme;
+- (NSURL *)streamUrl;
+- (NSURL *)httpUrl;
 
 @end

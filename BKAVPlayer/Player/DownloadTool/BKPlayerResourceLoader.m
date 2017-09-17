@@ -44,7 +44,7 @@ VideoRequestTaskDelegate
     
     NSLog(@"%@" , loadingRequest);
     
-    NSURL *url = [loadingRequest.request.URL httpScheme];
+    NSURL *url = [loadingRequest.request.URL httpUrl];
     long long requestedOffset = loadingRequest.dataRequest.requestedOffset;
     long long currentOffset = loadingRequest.dataRequest.currentOffset;
     
