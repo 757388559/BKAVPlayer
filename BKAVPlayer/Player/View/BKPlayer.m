@@ -1,17 +1,19 @@
 //
 //  BKPlayer.m
-//  ZZLAVPlayer
+//  BKAVPlayer
 //
 //  Created by liugangyi on 2016/2/22.
 //  Copyright © 2016年 liugangyi. All rights reserved.
 //
 
 #import "BKPlayer.h"
-#import "Masonry.h"
+#import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "Masonry.h"
+#import "NSURL+Scheme.h"
 #import "BKPlayerControlView.h"
 #import "BKPlayerResourceLoader.h"
-#import "BKPlayerCachePath.h"
+#import "BKPlayerCache.h"
 
 typedef enum : NSUInteger {
     PanDirectionVerticalMoved,
@@ -84,31 +86,28 @@ static const CGFloat kCtrViewShowedTime = 7;
 }
 
 
-- (void)playWithUrl:(NSURL *)url {
+- (void)playWithUrl:(NSURL *)url isCache:(BOOL)cache {
     
-    
+    AVURLAsset *currentAsset = (AVURLAsset *)self.bkPlayer.currentItem.asset;
+    if ([url isEqual:[currentAsset URL]] || [[url streamingScheme] isEqual:[currentAsset URL]] ) {
+        NSLog(@"已经存在");
+        return;
+    }
     _url = url;
-    self.bkPlayerItem = [AVPlayerItem playerItemWithURL:url];
-    [self.bkPlayer replaceCurrentItemWithPlayerItem:self.bkPlayerItem];
-//    NSString *str = [url absoluteString];
-//    NSString *fileName = [[str componentsSeparatedByString:@"/"] lastObject];
-//    BKPlayerCachePath *fileCache = [[BKPlayerCachePath alloc] init];
-//    BOOL isExist = [fileCache existIncompleteVideo:fileName];
-//    // 本地
-//    if (isExist) {
-//        NSString *filePath = [fileCache videoPathWithFullFile:fileName];
-//        NSURL *cacheUrl = [NSURL fileURLWithPath:filePath];
-//        self.bkPlayerItem = [AVPlayerItem playerItemWithURL:cacheUrl];
-//    } else {
-//        self.bkResourceLoader.dataDownload.fileName = fileName;
-//        NSURL *playUrl = [self.bkResourceLoader getSchemeVideoUrl:url];
-//        self.videoAsset = [AVURLAsset URLAssetWithURL:url options:nil];
-//        [self.videoAsset.resourceLoader setDelegate:self.bkResourceLoader queue:dispatch_get_main_queue()];
-//        self.bkPlayerItem = [AVPlayerItem playerItemWithAsset:self.videoAsset];
-//    }
-
-//    [self.bkPlayer replaceCurrentItemWithPlayerItem:self.bkPlayerItem];
-//    [self createVideo];
+    if (cache) {
+        url = [url streamingScheme];
+    }
+    
+    // 资源请求代理
+    AVURLAsset *asset = [AVURLAsset assetWithURL:url];
+    self.bkResourceLoader = [[BKPlayerResourceLoader alloc] init];
+    [asset.resourceLoader setDelegate:self.bkResourceLoader queue:dispatch_get_main_queue()];
+    // Item
+    AVPlayerItem *item = [AVPlayerItem playerItemWithAsset:asset];
+    
+    // player加载资源
+    [self.bkPlayer replaceCurrentItemWithPlayerItem:item];
+    
 }
 
 - (void)createVideo {
@@ -117,6 +116,7 @@ static const CGFloat kCtrViewShowedTime = 7;
         return;
     }
     self.bkPlayer = [[AVPlayer alloc] init];
+    self.bkPlayer.automaticallyWaitsToMinimizeStalling = NO;
     [self setPlayerCtrViewAction];
     [self addObservesForPlayerItem];
     [self configureVolume];

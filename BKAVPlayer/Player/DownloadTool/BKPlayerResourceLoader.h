@@ -21,6 +21,7 @@
 @property (nonatomic , strong) Download *dataDownload;
 @property (nonatomic , weak) id <BKPlayerRquestTaskDelegate> delegate;
 
-- (NSURL *)getSchemeVideoUrl:(NSURL *)url;
+
+
 
 @end

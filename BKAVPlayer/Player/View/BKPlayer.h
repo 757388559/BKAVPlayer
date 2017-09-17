@@ -29,7 +29,7 @@ typedef void(^GoBackBlock)(void);
 /// close block.
 @property (nonatomic , copy) GoBackBlock goBackBlock;
 
-- (void)playWithUrl:(NSURL *)url;
+- (void)playWithUrl:(NSURL *)url isCache:(BOOL)cache;
 
 - (void)play;
 - (void)pause;
