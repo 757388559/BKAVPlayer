@@ -11,14 +11,6 @@
 @interface BKPlayerCache : NSObject
 
 /**
- 获取临时的缓存文件
-
- @param url 资源Url
- @return 路径
- */
-+ (NSString *)cachePathForTempUrl:(NSURL *)url;
-
-/**
  获取完整的缓存文件
 
  @param url 资源Url
@@ -40,6 +32,47 @@
  */
 + (BOOL)existIntegralSourceForUrl:(NSURL *)url;
 
+
+
+
+/**
+ 获取临时的缓存文件
+ 
+ @param url 资源Url
+ @return 路径
+ */
++ (NSString *)cachePathForTempUrl:(NSURL *)url;
+
+/**
+ 清除片段缓存
+
+ @param url 资源Url
+ */
++ (void)cleanCacheForTemp:(NSURL *)url;
+
+/**
+ 获取临时缓存文件大小
+
+ @param url 资源url
+ @return 文件长度
+ */
++ (long long)cacheTempFileSize:(NSURL *)url;
+
+/**
+ 是否存在临时片段缓存
+ 
+ @param url 资源Url
+ @return Y-存在
+ */
++ (BOOL)existTempCacheFileForUrl:(NSURL *)url;
+
+
+/**
+ 将完整的临时缓存移动到永久路径
+
+ @param url Url
+ */
++ (void)moveTempCahceFileToIntegralPathWithUrl:(NSURL *)url;
 
 /**
  文件类型

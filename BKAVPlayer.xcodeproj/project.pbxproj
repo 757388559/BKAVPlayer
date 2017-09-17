@@ -34,9 +34,9 @@
 		0A619E851E7A97B800CC3054 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A619E881E7A97B800CC3054 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A619E8A1E7A97B800CC3054 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0A619E981E7ACD5400CC3054 /* BKHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKHeader.h; sourceTree = "<group>"; };
 		0A619E991E7BD27700CC3054 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		0A619E9A1E7BD27700CC3054 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		0A95DFC41F6EC5980039C20F /* BKHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKHeader.h; sourceTree = "<group>"; };
 		0AB74F551F6EAF1600FFB070 /* BKPlayerCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPlayerCache.h; sourceTree = "<group>"; };
 		0AB74F561F6EAF1600FFB070 /* BKPlayerCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPlayerCache.m; sourceTree = "<group>"; };
 		0AB74F571F6EAF1600FFB070 /* BKPlayerResourceLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPlayerResourceLoader.h; sourceTree = "<group>"; };
@@ -89,7 +89,6 @@
 			children = (
 				0A619E821E7A97B800CC3054 /* AppDelegate.h */,
 				0A619E831E7A97B800CC3054 /* AppDelegate.m */,
-				0A619E981E7ACD5400CC3054 /* BKHeader.h */,
 				0A4B064F1E80B70D00FD0395 /* VideoViewController.h */,
 				0A4B06501E80B70D00FD0395 /* VideoViewController.m */,
 				0A619E991E7BD27700CC3054 /* MainViewController.h */,
@@ -115,6 +114,7 @@
 		0A619E911E7A980C00CC3054 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				0A95DFC41F6EC5980039C20F /* BKHeader.h */,
 				0AB74F531F6EAEC200FFB070 /* View */,
 				0AB74F521F6EAE8B00FFB070 /* Category */,
 				0AB74F511F6EAE2E00FFB070 /* DownloadTool */,
@@ -421,6 +421,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 4356FU85RB;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/BKAVPlayer/Player/BKHeader.h";
 				INFOPLIST_FILE = BKAVPlayer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -439,6 +440,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 4356FU85RB;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/BKAVPlayer/Player/BKHeader.h";
 				INFOPLIST_FILE = BKAVPlayer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

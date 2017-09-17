@@ -42,8 +42,6 @@ VideoRequestTaskDelegate
 // 资源加载代理的开始地方
 - (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest *)loadingRequest {
     
-    NSLog(@"%@" , loadingRequest);
-    
     NSURL *url = [loadingRequest.request.URL httpUrl];
     long long requestedOffset = loadingRequest.dataRequest.requestedOffset;
     long long currentOffset = loadingRequest.dataRequest.currentOffset;
@@ -162,24 +160,20 @@ VideoRequestTaskDelegate
 
 #pragma mark - Session task delegate
 
-- (void)task:(Download *)task didReceiveVideoLength:(NSUInteger)videoLength mimeType:(NSString *)mimeType {
-
-}
-
-- (void)didReceiveVideoDataWithTask:(Download *)task {
-
-    [self processPendingRequests];
-}
-
-- (void)didFinishLoadingWithTask:(Download *)task {
+- (void)downloaddidFinished:(Download *)download {
+    
     
 }
 
-//网络中断：-1005
-//无网络连接：-1009
-//请求超时：-1001
-//服务器内部错误：-1004
-//找不到服务器：-1003
+- (void)download:(Download *)download didFailedWithErrorCode:(NSInteger)errorCode {
+    
+}
+
+- (void)downloadDidReciveData:(Download *)download {
+    
+    [self processPendingRequests];
+}
+
 
 
 

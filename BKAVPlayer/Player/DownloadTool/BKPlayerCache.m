@@ -20,17 +20,7 @@ NSString * const BKVideoCacheForIntegralPath = @"/videoIntegralCacheFile"; // �
 
 @implementation BKPlayerCache
 
-// 临时缓存文件夹
-+ (NSString *)cacheTempPath {
-    
-    NSString *path = [tempPath stringByAppendingPathComponent:BKVideoCacheForTemporaryPath];
-    BOOL isDir ;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] == NO) {
-        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    return path;
-}
-
+//**********************缓存--完整文件*********************//
 // 完整缓存文件夹
 + (NSString *)cacheInteralPath {
     
@@ -39,6 +29,11 @@ NSString * const BKVideoCacheForIntegralPath = @"/videoIntegralCacheFile"; // �
         [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
     }
     return path;
+}
+
++ (NSString *)cachePathForIntegralUrl:(NSURL *)url {
+    
+    return [[self cacheInteralPath] stringByAppendingPathComponent:url.lastPathComponent];
 }
 
 // 完整缓存文件大小
@@ -70,11 +65,24 @@ NSString * const BKVideoCacheForIntegralPath = @"/videoIntegralCacheFile"; // �
     return NO;
 }
 
-+ (NSString *)cachePathForIntegralUrl:(NSURL *)url {
+//**********************临时缓存文件片段*********************//
+// 临时缓存文件夹
++ (NSString *)cacheTempPath {
     
-    return [[self cacheInteralPath] stringByAppendingPathComponent:url.lastPathComponent];
+    NSString *path = [tempPath stringByAppendingPathComponent:BKVideoCacheForTemporaryPath];
+    BOOL isDir ;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] == NO) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return path;
 }
 
++ (void)cleanCacheForTemp:(NSURL *)url {
+    
+    NSString *path = [[self cacheTempPath] stringByAppendingPathComponent:url.lastPathComponent];
+    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    
+}
 
 + (NSString *)cachePathForTempUrl:(NSURL *)url {
     
@@ -82,6 +90,42 @@ NSString * const BKVideoCacheForIntegralPath = @"/videoIntegralCacheFile"; // �
 }
 
 
++ (long long)cacheTempFileSize:(NSURL *)url {
+    
+    if ([self existTempCacheFileForUrl:url]) {
+        NSString *path = [self cachePathForTempUrl:url];
+        NSDictionary *infoDic = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
+        return [infoDic[NSFileSize] longLongValue];
+    }
+    
+    return 0;
+}
+
++ (BOOL)existTempCacheFileForUrl:(NSURL *)url {
+    
+    BOOL isDir;
+    NSString *path = [[self cacheTempPath] stringByAppendingPathComponent:url.lastPathComponent];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
+        if (isDir) {
+            return NO;
+        } else {
+            return YES;
+        }
+    }
+    return NO;
+}
+
++ (void)moveTempCahceFileToIntegralPathWithUrl:(NSURL *)url {
+    
+    NSString *tempCachePath = [self cachePathForTempUrl:url];
+    NSString *integralCahePath = [self cachePathForIntegralUrl:url];
+    NSError *error;
+    [[NSFileManager defaultManager] moveItemAtPath:tempCachePath toPath:integralCahePath error:&error];
+    
+    if (error) {
+        NSLog(@"文件移动失败");
+    }
+}
 
 + (NSString *)contentType:(NSURL *)url {
     

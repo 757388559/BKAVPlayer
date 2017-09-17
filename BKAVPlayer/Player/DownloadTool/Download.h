@@ -12,30 +12,29 @@
 @class Download;
 @protocol VideoRequestTaskDelegate <NSObject>
 
-- (void)didReceiveVideoDataWithTask:(Download *)task;
-- (void)didFinishLoadingWithTask:(Download *)task;
-- (void)didFailLoadingWithTask:(Download *)task WithError:(NSInteger )errorCode;
+- (void)downloadDidReciveData:(Download *)download;
+- (void)downloaddidFinished:(Download *)download;
+- (void)download:(Download *)download didFailedWithErrorCode:(NSInteger)errorCode;
 
 @end
 
 @interface Download : NSObject
 
-@property (nonatomic , strong, readonly) NSURL        *url;
-@property (nonatomic , readonly        ) long long   offset;
+@property (nonatomic , strong) NSURL *url;
 
-@property (nonatomic , readonly        ) long long   totalSize;
-@property (nonatomic , readonly        ) long long   downloadedSize;
-@property (nonatomic , strong, readonly) NSString     *mimeType;
-@property (nonatomic , assign)           BOOL         isFinishLoad;
+@property (nonatomic) long long offset;
+@property (nonatomic) long long totalSize;
+@property (nonatomic) long long downloadedSize;
 
+@property (nonatomic , copy) NSString * mimeType;
 @property (nonatomic , copy) NSString *fileName;
 
-@property (nonatomic, weak            ) id <VideoRequestTaskDelegate> delegate;
+@property (nonatomic, weak) id<VideoRequestTaskDelegate> delegate;
 
 
 - (void)downloadUrl:(NSURL *)url offset:(long long)offset;
 
-- (void)cancelAndClean;
+- (void)cleanData;
 
 - (void)continueLoading;
 
