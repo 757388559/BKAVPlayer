@@ -36,6 +36,13 @@ VideoRequestTaskDelegate
     return self;
 }
 
+- (void)dealloc {
+    
+    [self.dataDownload invalidAndCacel];
+    self.dataDownload.delegate = nil;
+    self.dataDownload = nil;
+    
+}
 
 #pragma mark - ResourceLoader data delegate 
 
@@ -43,28 +50,31 @@ VideoRequestTaskDelegate
 - (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest *)loadingRequest {
     
     NSURL *url = [loadingRequest.request.URL httpUrl];
-    long long requestedOffset = loadingRequest.dataRequest.requestedOffset;
-    long long currentOffset = loadingRequest.dataRequest.currentOffset;
-    
-    if (requestedOffset != currentOffset) {
-        requestedOffset = currentOffset;
-    }
     
     // 判断本地是否有完整缓存好的
     if ([BKPlayerCache existIntegralSourceForUrl:url]) {
         [self dealWithLoadingRequest:loadingRequest];
         return YES;
     }
-    
+    // 没有缓存好的数据要下载
     // 记录所有的请求
     [self.pendingRequestArray addObject:loadingRequest];
     
+    // 获取请求的位置
+    long long requestedOffset = loadingRequest.dataRequest.requestedOffset;
+    long long currentOffset = loadingRequest.dataRequest.currentOffset;
+    
+    if (requestedOffset != currentOffset) {
+        requestedOffset = currentOffset;
+    }
+
     // 如果没有下载：开始下载数据
     if (self.dataDownload.downloadedSize == 0) {
         [self.dataDownload downloadUrl:url offset:requestedOffset];
         return YES;
     }
     
+    // 范围不匹配也要重新下载
     if (requestedOffset < self.dataDownload.offset ||
         requestedOffset > (self.dataDownload.downloadedSize + self.dataDownload.offset + 333)
         ) {
@@ -113,7 +123,7 @@ VideoRequestTaskDelegate
         if (requestedOffset != requetCurrentOffset) {
             requestedOffset = requetCurrentOffset;
         }
-        #warning 不甚理解
+        
         long long responseOffset = requestedOffset-self.dataDownload.offset;
         
         // 可以提供给播放器的最小数据长度
@@ -162,11 +172,11 @@ VideoRequestTaskDelegate
 
 - (void)downloaddidFinished:(Download *)download {
     
-    
+    NSLog(@"片段下载结束");
 }
 
 - (void)download:(Download *)download didFailedWithErrorCode:(NSInteger)errorCode {
-    
+    NSLog(@"数据下载失败");
 }
 
 - (void)downloadDidReciveData:(Download *)download {

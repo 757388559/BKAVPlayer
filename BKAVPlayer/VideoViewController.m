@@ -10,7 +10,8 @@
 #import "BKPlayer.h"
 
 @interface VideoViewController ()
-
+/// player.
+@property (nonatomic, strong) BKPlayer *player;
 @end
 
 @implementation VideoViewController
@@ -21,28 +22,18 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     
-    BKPlayer *player = [[BKPlayer alloc] init];
-    player.normalFrame = CGRectMake(0, 150, self.view.bounds.size.width, 200);
+    self.player = [[BKPlayer alloc] init];
+    self.player.normalFrame = CGRectMake(0, 150, self.view.bounds.size.width, 200);
     
-    [player playWithUrl:[NSURL URLWithString:self.videoUrlStr] isCache:YES];
-    [self.view addSubview:player];
-    player.backgroundColor = [UIColor orangeColor];
+    [self.player playWithUrl:[NSURL URLWithString:self.videoUrlStr] isCache:YES];
+    [self.view addSubview:self.player];
+    self.player.backgroundColor = [UIColor orangeColor];
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)dealloc {
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self.player];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

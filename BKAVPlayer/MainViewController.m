@@ -24,14 +24,7 @@ UITableViewDataSource>
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.videoArray = @[@"http://120.25.226.186:32812/resources/videos/minion_01.mp4",
-                        @"http://120.25.226.186:32812/resources/videos/minion_02.mp4",
-                        @"http://120.25.226.186:32812/resources/videos/minion_03.mp4",
-                        @"http://120.25.226.186:32812/resources/videos/minion_04.mp4",
-                        @"http://120.25.226.186:32812/resources/videos/minion_05.mp4",
-                        @"http://120.25.226.186:32812/resources/videos/minion_06.mp4",
-                        @"http://120.25.226.186:32812/resources/videos/minion_07.mp4",
-                        @"http://120.25.226.186:32812/resources/videos/minion_08.mp4",
+    self.videoArray = @[
                         @"http://120.25.226.186:32812/resources/videos/minion_10.mp4",
                         @"http://120.25.226.186:32812/resources/videos/minion_11.mp4"];
     

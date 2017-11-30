@@ -25,4 +25,11 @@
     return comments.URL;
 }
 
+- (NSURL *)httpsUrl {
+    
+    NSURLComponents *comments = [[NSURLComponents alloc] initWithURL:self resolvingAgainstBaseURL:NO];
+    comments.scheme = @"https";
+    return comments.URL;
+}
+
 @end

@@ -34,11 +34,18 @@
     return self;
 }
 
+- (void)dealloc {
+    
+    [self.outPutStream close];
+    self.outPutStream = nil;
+}
+
 - (void)downloadUrl:(NSURL *)url offset:(long long)offset {
     
     _url = url;
     _offset = offset;
     
+    [self cleanData];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:0];
     [request setValue:[NSString stringWithFormat:@"bytes=%lld-" ,offset] forHTTPHeaderField:@"Range"];
@@ -49,10 +56,16 @@
 
 - (void)cleanData {
     
-    [self.urlSession invalidateAndCancel];
-    self.urlSession = nil;
+    [self invalidAndCacel];
     [BKPlayerCache cleanCacheForTemp:self.url];
     _downloadedSize = 0;
+    
+}
+
+- (void)invalidAndCacel {
+    
+    [self.urlSession invalidateAndCancel];
+    self.urlSession = nil;
 }
 
 
@@ -68,16 +81,16 @@
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
     
     if (error) {
-        
-        if (error.code == -1001 && !_once) {      //网络超时，重连一次
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self continueLoading];
-            });
-        }
-        if (error.code == -1009) {
-            NSLog(@"无网络连接");
-        }
-        
+    
+//        if (error.code == -1001 && !_once) {      //网络超时，重连一次
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                [self continueLoading];
+//            });
+//        }
+//        if (error.code == -1009) {
+//            NSLog(@"无网络连接");
+//        }
+//
         if (_delegate && [_delegate respondsToSelector:@selector(download:didFailedWithErrorCode:)]) {
             [_delegate download:self didFailedWithErrorCode:error.code];
         }
@@ -85,7 +98,7 @@
     } else {
         
         // 说明是完整的视频
-        if ([BKPlayerCache cacheInteralFileSzie:_url] == self.totalSize) {
+        if ([BKPlayerCache cacheTempFileSize:_url] == self.totalSize) {
             [BKPlayerCache moveTempCahceFileToIntegralPathWithUrl:_url];
         }
         

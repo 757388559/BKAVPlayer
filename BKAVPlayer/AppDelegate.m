@@ -7,7 +7,8 @@
 //
 
 #import "AppDelegate.h"
-
+#import <TargetConditionals.h>
+#import <objc/objc.h>
 @interface AppDelegate ()
 
 @end

@@ -123,6 +123,7 @@ static const CGFloat kCtrViewShowedTime = 7;
     [self addNotifications];
     [self fadeInCtrView];
     [self.indicatorView startAnimating];
+    [self bringSubviewToFront:self.indicatorView];
 }
 
 #pragma mark - 通知和观察者方法的实现
@@ -299,6 +300,11 @@ static const CGFloat kCtrViewShowedTime = 7;
             if (self.bkPlayer.currentItem.playbackLikelyToKeepUp) {
                 self.playerStatus = BKPlayerStatusReadyToPlay;
                 [self.indicatorView stopAnimating];
+            } else {
+                if (![self.indicatorView isAnimating]) {
+                    [self.indicatorView startAnimating];
+                    self.indicatorView.hidden = NO;
+                }
             }
         } else if ([keyPath isEqualToString:@"bkPlayer.rate"]) {
             if (self.bkPlayer.rate == 1.0)

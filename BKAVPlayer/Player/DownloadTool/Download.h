@@ -34,7 +34,10 @@
 
 - (void)downloadUrl:(NSURL *)url offset:(long long)offset;
 
+// 清除数据并无效任务
 - (void)cleanData;
+// 无效任务
+- (void)invalidAndCacel;
 
 - (void)continueLoading;
 

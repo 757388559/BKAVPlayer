@@ -12,5 +12,6 @@
 
 - (NSURL *)streamUrl;
 - (NSURL *)httpUrl;
+- (NSURL *)httpsUrl;
 
 @end
