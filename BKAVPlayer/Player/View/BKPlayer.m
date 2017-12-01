@@ -90,7 +90,6 @@ static const CGFloat kCtrViewShowedTime = 7;
     
     AVURLAsset *currentAsset = (AVURLAsset *)self.bkPlayer.currentItem.asset;
     if ([url isEqual:[currentAsset URL]] || [[url streamUrl] isEqual:[currentAsset URL]] ) {
-        NSLog(@"已经存在");
         return;
     }
     _url = url;
@@ -147,8 +146,7 @@ static const CGFloat kCtrViewShowedTime = 7;
  */
 - (void)panGestureForView:(UIPanGestureRecognizer *)sender {
     
-    CGPoint translation = [sender translationInView:self.controlView];
-    NSLog(@"%.2f , %2.f" , translation.x , translation.y);
+//    CGPoint translation = [sender translationInView:self.controlView];
     // 速率point-->判定 水平移动 垂直移动
     CGPoint velocityPoint = [sender velocityInView:self.controlView];
     switch (sender.state) {

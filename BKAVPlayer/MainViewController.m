@@ -26,7 +26,9 @@ UITableViewDataSource>
     
     self.videoArray = @[
                         @"http://120.25.226.186:32812/resources/videos/minion_10.mp4",
-                        @"http://120.25.226.186:32812/resources/videos/minion_11.mp4"];
+                        @"http://120.25.226.186:32812/resources/videos/minion_11.mp4",
+                        @"https://vpro.allinmd.cn/1509677793878_480_320.mp4?1509643844"
+                        ];
     
 }
 

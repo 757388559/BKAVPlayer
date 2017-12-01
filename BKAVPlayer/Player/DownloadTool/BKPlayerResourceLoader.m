@@ -61,12 +61,7 @@ VideoRequestTaskDelegate
     [self.pendingRequestArray addObject:loadingRequest];
     
     // 获取请求的位置
-    long long requestedOffset = loadingRequest.dataRequest.requestedOffset;
-    long long currentOffset = loadingRequest.dataRequest.currentOffset;
-    
-    if (requestedOffset != currentOffset) {
-        requestedOffset = currentOffset;
-    }
+    long long requestedOffset = loadingRequest.dataRequest.currentOffset;
 
     // 如果没有下载：开始下载数据
     if (self.dataDownload.downloadedSize == 0) {
@@ -116,13 +111,9 @@ VideoRequestTaskDelegate
             data = [NSData dataWithContentsOfFile:[BKPlayerCache cachePathForIntegralUrl:url] options:NSDataReadingMappedIfSafe error:nil];
         }
         
-        long long requestedOffset = loadingRequest.dataRequest.requestedOffset;
-        long long requetCurrentOffset = loadingRequest.dataRequest.currentOffset;
-        long long requestLength = loadingRequest.dataRequest.requestedLength;
         
-        if (requestedOffset != requetCurrentOffset) {
-            requestedOffset = requetCurrentOffset;
-        }
+        long long requestedOffset = loadingRequest.dataRequest.currentOffset;
+        long long requestLength = loadingRequest.dataRequest.requestedLength;
         
         long long responseOffset = requestedOffset-self.dataDownload.offset;
         
@@ -176,7 +167,7 @@ VideoRequestTaskDelegate
 }
 
 - (void)download:(Download *)download didFailedWithErrorCode:(NSInteger)errorCode {
-    NSLog(@"数据下载失败");
+    
 }
 
 - (void)downloadDidReciveData:(Download *)download {

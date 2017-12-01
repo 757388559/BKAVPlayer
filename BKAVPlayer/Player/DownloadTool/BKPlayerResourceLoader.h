@@ -10,18 +10,15 @@
 #import <AVFoundation/AVFoundation.h>
 #import "Download.h"
 
-@class BKPlayerResourceLoader;
-@protocol BKPlayerRquestTaskDelegate <NSObject>
-
-
-@end
+//@protocol BKPlayerRquestTaskDelegate <NSObject>
+//
+//
+//@end
 
 @interface BKPlayerResourceLoader : NSObject <AVAssetResourceLoaderDelegate>
 
 @property (nonatomic , strong) Download *dataDownload;
-@property (nonatomic , weak) id <BKPlayerRquestTaskDelegate> delegate;
-
-
+//@property (nonatomic , weak) id <BKPlayerRquestTaskDelegate> delegate;
 
 
 @end

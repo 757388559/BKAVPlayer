@@ -91,8 +91,10 @@
 //            NSLog(@"无网络连接");
 //        }
 //
-        if (_delegate && [_delegate respondsToSelector:@selector(download:didFailedWithErrorCode:)]) {
-            [_delegate download:self didFailedWithErrorCode:error.code];
+        if (error.code != -999) { //
+            if (_delegate && [_delegate respondsToSelector:@selector(download:didFailedWithErrorCode:)]) {
+                [_delegate download:self didFailedWithErrorCode:error.code];
+            }
         }
         
     } else {

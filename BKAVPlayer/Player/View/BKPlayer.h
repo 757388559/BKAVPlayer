@@ -33,7 +33,6 @@ typedef void(^GoBackBlock)(void);
 
 - (void)play;
 - (void)pause;
-- (void)replaceCurrentItemWithPlayerItem:(AVPlayerItem *)item;
 
 @end
 
